@@ -21,10 +21,10 @@ const view = {
 
         $(`#tw${j}`).css("margin-top", 120 * j);
     },
-    // editWords: () => {
-
-    // },
-    // scrollWords: () => {
-        
-    // }
+    editWord: (i, text) => {
+        $(`#${i}`).css("margin-top", 120 * i);
+    },
+    removeWord: (i) => {
+        $(`#${i}`).remove();
+    }
 }
