@@ -1,27 +1,27 @@
 const view = {
-    createCard: (i, text, type, title) => {
-        if (text.length > 650) {
-            $(`#${i} .text`).css("top","153.05px");
-            $(`#${i} .text`).html(text.slice(0, 650).concat('...'));
-        }
-
-        let card = `
-            <div id="${i}" class="card ${type}">
-                <p class="title">${title}</p>
+    createLeftWord: (i, text) => {
+        let leftWord = `
+            <div id="${i}" class="word">
                 <p class="text">${text}</p>
-                <label onClick="readMore(${i})" class="readMore" style="display: none">ReadMore<label>
+            </div>
+        `;
+        $("#divOne").append(leftWord);
+
+        $(`#${i}`).css("margin-top", 250 * i);
+    },
+
+    createRightWord: (j,text) => {
+        let rightWord = `
+            <div id="tw${j}" class="word">
+                <p class="text">${text}</p>
             </div>
         `;
 
-        $("body").append(card);
-        $(`#${i}`).css("margin-left", 2400 * i);
-        if(text.length < 550) {
-            $(`#${i} .text`).css("top","auto");
-            $(`#${i} .text`).css("margin-top","105px");
-        }
+        $("#divTwo").append(rightWord);
 
-        if (text.length > 650) {
-            $(`#${i} .readMore`).css("display", "flex");
-        }
+        $(`#tw${j}`).css("margin-top", 250 * j);
+    },
+    scrollWords: (i,text) => {
+        
     }
 }
