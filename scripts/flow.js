@@ -7,7 +7,7 @@ const view = {
         `;
         $("#divOne").append(leftWord);
 
-        $(`#${i}`).css("margin-top", 250 * i);
+        $(`#${i}`).css("margin-top", 120 * i);
     },
 
     createRightWord: (j,text) => {
@@ -19,9 +19,12 @@ const view = {
 
         $("#divTwo").append(rightWord);
 
-        $(`#tw${j}`).css("margin-top", 250 * j);
+        $(`#tw${j}`).css("margin-top", 120 * j);
     },
-    scrollWords: (i,text) => {
+    // editWords: () => {
+
+    // },
+    // scrollWords: () => {
         
-    }
+    // }
 }
