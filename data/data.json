@@ -1,6 +1,39 @@
 {
-    "data": [
+    "data": 
         {
-            "text": "wfafwafa"
-        }]
+            "left": [
+                {
+                    "text": "1You can get recipes from the chef’s themselves."
+                },
+                {
+                    "text": "1You can get recipes from the chef’s themselves."
+                },
+                {
+                    "text": "1You can get recipes from the chef’s themselves."
+                },
+                {
+                    "text": "1You can get recipes from the chef’s themselves."
+                },
+                {
+                    "text": "1You can get recipes from the chef’s themselves."
+                }
+            ],
+            "right": [
+                {
+                    "text": "2You can get recipes from the chef’s themselves."
+                },
+                {
+                    "text": "2You can get recipes from the chef’s themselves."
+                },
+                {
+                    "text": "2You can get recipes from the chef’s themselves."
+                },
+                {
+                    "text": "2You can get recipes from the chef’s themselves."
+                },
+                {
+                    "text": "2You can get recipes from the chef’s themselves."
+                }
+            ]
+        }
 }
