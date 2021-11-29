@@ -1,34 +1,78 @@
-let set = { };
+const view = {
+  createLeftWord: (i, text) => {
+      let leftWord = `
+          <div id="${i}" class="word">
+              <p class="text">${text}</p>
+          </div>
+      `;
+      $("#divOne").append(leftWord);
 
+      $(`#${i}`).css("margin-top", 120 * i);
+  },
 
-const onLoad = fetch('data/data.json')
-  .then(response => response.json())
-  .then(data => {
-    set.data = data.data;
-    let length = set.data.left.length;
+  createRightWord: (j,text) => {
+      let rightWord = `
+          <div id="tw${j}" class="word">
+              <p class="text">${text}</p>
+          </div>
+      `;
 
-    view.createLeftWord(0, set.data.left[Math.floor(Math.random() * length)].text);
-    view.createLeftWord(1, set.data.left[Math.floor(Math.random() * length)].text);
-    view.createLeftWord(2, set.data.left[Math.floor(Math.random() * length)].text);
+      $("#divTwo").append(rightWord);
 
-    view.createRightWord(0, set.data.right[Math.floor(Math.random() * length)].text);
-    view.createRightWord(1, set.data.right[Math.floor(Math.random() * length)].text);
-    view.createRightWord(2, set.data.right[Math.floor(Math.random() * length)].text);
-  });
+      $(`#tw${j}`).css("margin-top", 120 * j);
+  },
+  editWord: (i, text) => {
+      $(`#${i} p`).html(text);
+  },
+  removeWord: (i) => {
+      $(`#${i}`).remove();
+  },
+  scrollWord: async(direction) => {
+    if (direction > 0) {
+      let count = -1;
+      for(let i = set.index - 1; i < set.index + direction; i++)
+      {
+          $(`#${i}`).css("margin-top", 120 * count);
+          count++;
+      }
+  } else {
+      let count = 1;
+      for(let i = set.index + 1; i > set.index + direction; i--)
+      {
+          $(`#${i}`).css("margin-top", 120 * count);
+          count--;
+      }
+    }
 
-function checkStatus() {
-  $("#1").animate({"left": -200}, 32);
-  $("#tw1").animate({"right": -200}, 32);
+    
+    $("#divOne .word").removeClass("top center bottom");
+    $(`#${set.index}`).addClass("center");
+    
+    view.editWord(set.index, set.data.left[Math.floor(Math.random() * length)].text);
+    
+    if (direction > 0) {
+        $(`#${set.index - 1}`).addClass("top");
+        $(`#${set.index - 2}`).addClass("bottom");
+        $(`#${set.index - 2}`).hide();
+        setTimeout(() => {
+        $(`#${set.index - 2}`).css("margin-top", "120px");
+        $(`#${set.index - 2}`).attr("id", set.index + 1);
+        },10);
 
-  setTimeout(() => {
-    view.removeWord(1);
-    $("#tw1").remove();
-    $("#0").animate({"top": 60}, 32);
-    $("#tw0").animate({"top": 60}, 32);
-  }, 333);
-
-  view.editWord();
+        setTimeout(() => {
+            $(`#${set.index + 1}`).show();
+        },100);
+    } else {
+        $(`#${set.index + 1}`).addClass("bottom");
+        $(`#${set.index + 2}`).addClass("top");
+        $(`#${set.index + 2}`).hide();
+        setTimeout(() => {
+        $(`#${set.index + 2}`).css("margin-top", "-120px");
+        $(`#${set.index + 2}`).attr("id", set.index - 1);
+        },10);
+        setTimeout(() => {
+            $(`#${set.index - 1}`).show();
+        },100);
+    }
+  }
 }
-
-
-$(onLoad);
