@@ -64,13 +64,13 @@ const shuffle = (array) => {
 }
 
 function checkStatus() {
-  $("#divOne #1").animate({"left": -200}, 32);
+  $(`#divOne #${set.index + 1}`).animate({"left": -200}, 32);
   $("#divTwo #1").animate({"right": -200}, 32);
 
   setTimeout(() => {
     view.removeWord(1);
     $("#divTwo #1").remove();
-    $("#divOne #0").animate({"top": 60}, 32);
+    $(`#divOne #${set.index}`).animate({"top": 60}, 32);
     $("#divTwo #0").animate({"top": 60}, 32);
   }, 333);
 
