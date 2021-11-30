@@ -21,7 +21,7 @@ const view = {
       for(let i = 0; i < 10; i++)
       {
           $(`#divOne #${i}`).css("margin-top", 120 * count);
-          count++;
+          count++;  
       }
     }
 
