@@ -1,78 +1,45 @@
 const view = {
-  createLeftWord: (i, text) => {
-      let leftWord = `
-          <div id="${i}" class="word">
+  createWord: (i, text, type, parent) => {
+      let htmlWord = `
+          <div id="${i}" class="word ${type}">
               <p class="text">${text}</p>
           </div>
       `;
-      $("#divOne").append(leftWord);
+      $(`#${parent}`).append(htmlWord);
 
-      $(`#${i}`).css("margin-top", 120 * i);
-  },
-
-  createRightWord: (j,text) => {
-      let rightWord = `
-          <div id="tw${j}" class="word">
-              <p class="text">${text}</p>
-          </div>
-      `;
-
-      $("#divTwo").append(rightWord);
-
-      $(`#tw${j}`).css("margin-top", 120 * j);
+      $(`#${parent} #${i}`).css("margin-top", 120 * i);
   },
   editWord: (i, text) => {
-      $(`#${i} p`).html(text);
+      $(`#${i} .text`).html(text);
   },
   removeWord: (i) => {
-      $(`#${i}`).remove();
+      $(`#${i} .text`).remove();
   },
-  scrollWord: async(direction) => {
+  scrollToWord: async(direction) => {
     if (direction > 0) {
       let count = -1;
-      for(let i = set.index - 1; i < set.index + direction; i++)
+      for(let i = 0; i < 10; i++)
       {
-          $(`#${i}`).css("margin-top", 120 * count);
+          $(`#divOne #${i}`).css("margin-top", 120 * count);
           count++;
       }
-  } else {
-      let count = 1;
-      for(let i = set.index + 1; i > set.index + direction; i--)
-      {
-          $(`#${i}`).css("margin-top", 120 * count);
-          count--;
-      }
     }
 
-    
     $("#divOne .word").removeClass("top center bottom");
-    $(`#${set.index}`).addClass("center");
-    
-    view.editWord(set.index, set.data.left[Math.floor(Math.random() * length)].text);
+    $(`#divOne #${set.index + 1}`).addClass("center");
+
+    view.editWord(set.index, set.data.left[set.index].text);
     
     if (direction > 0) {
-        $(`#${set.index - 1}`).addClass("top");
-        $(`#${set.index - 2}`).addClass("bottom");
-        $(`#${set.index - 2}`).hide();
-        setTimeout(() => {
-        $(`#${set.index - 2}`).css("margin-top", "120px");
-        $(`#${set.index - 2}`).attr("id", set.index + 1);
-        },10);
+        $(`#divOne #${set.index}`).addClass("top");
+        $(`#divOne #${set.index - 1}`).addClass("bottom");
+        $(`#divOne #${set.index - 1}`).hide();
+        $(`#divOne #${set.index - 1}`).css("margin-top", "240px");
+        $(`#divOne #${set.index + 1}`).css("margin-top", "120px");
+        $(`#divOne #${set.index}`).css("margin-top", "0");
 
-        setTimeout(() => {
-            $(`#${set.index + 1}`).show();
-        },100);
-    } else {
-        $(`#${set.index + 1}`).addClass("bottom");
-        $(`#${set.index + 2}`).addClass("top");
-        $(`#${set.index + 2}`).hide();
-        setTimeout(() => {
-        $(`#${set.index + 2}`).css("margin-top", "-120px");
-        $(`#${set.index + 2}`).attr("id", set.index - 1);
-        },10);
-        setTimeout(() => {
-            $(`#${set.index - 1}`).show();
-        },100);
-    }
+        $(`#divOne #${set.index - 1}`).attr("id", set.index + 2);
+        setTimeout(()=> $(`#${set.index + 2}`).show());
+    } 
   }
 }
