@@ -1,30 +1,34 @@
 let set = {index: 0};
-let leftSet = [];
-let rightSet = [];
+let textSet = [];
+let valueSet = [];
 let scrolling = [false, false];
 let done = false;
 let currentWord = [0, 0];
 let keepValue = false;
 let dupValues = [];
 
-const onLoad = fetch('data/data.json')
-  .then(response => response.json())
-  .then(data => {
-    set.data = data.data;
-    leftSet.push(shuffle(data.data.left));
-    rightSet.push(shuffle(data.data.right));
+const onLoad = async () => {
+    $.get('data/data.json', function (data) { 
+        set.elements = data.elements;
+
+        for (let i = 0; i < set.elements.length; i++)
+        {
+            textSet.push(shuffle(set.elements[i].text));
+            valueSet.push(shuffle(set.elements[i].value));
+
+        }
+        view.createWord(0, textSet[0], "top", "divOne");
+        view.createWord(1, textSet[1], "center", "divOne");
+        view.createWord(2, textSet[2], "bottom", "divOne");
     
-    view.createWord(0, leftSet[0][0].text, "top", "divOne");
-    view.createWord(1, leftSet[0][1].text, "center", "divOne");
-    view.createWord(2, leftSet[0][2].text, "bottom", "divOne");
-
-    view.createWord(0, rightSet[0][0].text, "top", "divTwo");
-    view.createWord(1, rightSet[0][1].text, "center", "divTwo");
-    view.createWord(2, rightSet[0][2].text, "bottom", "divTwo");
-
-    $("#divOne" ).on('wheel', async function (e) { wheel(e, $("#divOne"), 0) });
-    $("#divTwo").on('wheel', async function (e) { wheel(e, $("#divTwo"), 1) });
-});
+        view.createWord(0, valueSet[0], "top", "divTwo");
+        view.createWord(1, valueSet[1], "center", "divTwo");
+        view.createWord(2, valueSet[2], "bottom", "divTwo");
+    
+        $("#divOne" ).on('wheel', async function (e) { wheel(e, $("#divOne"), 0) });
+        $("#divTwo").on('wheel', async function (e) { wheel(e, $("#divTwo"), 1) });
+    });
+};
 
 const wheel = async (e, obj, i) => {
     if (!scrolling[i] && !done) {
@@ -41,7 +45,7 @@ const wheel = async (e, obj, i) => {
         currentWord[i] += dir;
         set.index += dir;
         scrolling[i] = true;
-        await view.scrollToWord(1);
+        await view.scrollToWord(1,obj);
         
         setTimeout(() => scrolling[i] = false, 500)
     }
