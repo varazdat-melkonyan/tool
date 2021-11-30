@@ -1,64 +1,96 @@
-let set = {index:0};
+let set = {index: 0};
+let leftSet = [];
+let rightSet = [];
+let scrolling = [false, false];
+let done = false;
+let currentWord = [0, 0];
+let keepValue = false;
+let dupValues = [];
 
 const onLoad = fetch('data/data.json')
   .then(response => response.json())
   .then(data => {
     set.data = data.data;
-    let length = set.data.left.length;
+    leftSet.push(shuffle(data.data.left));
+    rightSet.push(shuffle(data.data.right));
+    
+    view.createWord(0, leftSet[0][0].text, "top", "divOne");
+    view.createWord(1, leftSet[0][1].text, "center", "divOne");
+    view.createWord(2, leftSet[0][2].text, "bottom", "divOne");
 
-    view.createLeftWord(0, set.data.left[Math.floor(Math.random() * length)].text);
-    view.createLeftWord(1, set.data.left[Math.floor(Math.random() * length)].text);
-    view.createLeftWord(2, set.data.left[Math.floor(Math.random() * length)].text);
+    view.createWord(0, rightSet[0][0].text, "top", "divTwo");
+    view.createWord(1, rightSet[0][1].text, "center", "divTwo");
+    view.createWord(2, rightSet[0][2].text, "bottom", "divTwo");
 
-    view.createRightWord(0, set.data.right[Math.floor(Math.random() * length)].text);
-    view.createRightWord(1, set.data.right[Math.floor(Math.random() * length)].text);
-    view.createRightWord(2, set.data.right[Math.floor(Math.random() * length)].text);
+    $("#divOne" ).on('wheel', async function (e) { wheel(e, $("#divOne"), 0) });
+    $("#divTwo").on('wheel', async function (e) { wheel(e, $("#divTwo"), 1) });
 });
 
-const scrollWord = (direction) => {
-    let newIndex = set.index + direction;
+const wheel = async (e, obj, i) => {
+    if (!scrolling[i] && !done) {
+        let dir = Math.sign(e.originalEvent.wheelDelta);
+        let two = keepValue && i == 1 ? dupValues.length < 3 : set.data.left.length < 3;
+        if (two) {
+            if($(obj).find(".top").length == 0 && dir == -1) {
+                return;
+            } else if ($(obj).find(".bottom").length == 0 && dir == 1) {
+                return;
+            }
+        }
 
-    if (newIndex < 0 || newIndex >= set.data.length) {
-        return;
-    }
-    else {
-        set.index += direction;
-        console.log(set.index);
-        view.scrollWord(direction);
+        currentWord[i] += dir;
+        set.index += 1;
+        scrolling[i] = true;
+        await view.scrollToWord(1);
+        
+        scrolling[i] = false;
     }
 }
 
-// function checkStatus() {
-//   $("#1").animate({"left": -200}, 32);
-//   $("#tw1").animate({"right": -200}, 32);
+const shuffle = (array) => {
+	let currentIndex = array.length, tempVal, randomIndex;
 
-//   setTimeout(() => {
-//     view.removeWord(1);
-//     $("#tw1").remove();
-//     $("#0").animate({"top": 60}, 32);
-//     $("#tw0").animate({"top": 60}, 32);
-//   }, 333);
+	while (0 !== currentIndex)
+	{
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
 
-//   view.editWord();
-// }
+		tempVal = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = tempVal;
+	}
 
+	return array;
+}
 
+function checkStatus() {
+  $("#divOne #1").animate({"left": -200}, 32);
+  $("#divTwo #1").animate({"right": -200}, 32);
 
-// const shuffle = (array) => {
-// 	let currentIndex = array.length, tempVal, randomIndex;
+  setTimeout(() => {
+    view.removeWord(1);
+    $("#divTwo #1").remove();
+    $("#divOne #0").animate({"top": 60}, 32);
+    $("#divTwo #0").animate({"top": 60}, 32);
+  }, 333);
 
-// 	while (0 !== currentIndex)
-// 	{
-// 		randomIndex = Math.floor(Math.random() * currentIndex);
-// 		currentIndex -= 1;
+}
 
-// 		tempVal = array[currentIndex];
-// 		array[currentIndex] = array[randomIndex];
-// 		array[randomIndex] = tempVal;
-// 	}
+const getWord = (newIndex, type) => {
+    let length  = (type == 1 && keepValue) ? dupValues.length : set.data.left.length;
+    if (type == 1 && !keepValue) length = values.length;
+    newIndex    %= length;
+    
+    if (newIndex < 0) {
+        newIndex = length + newIndex;
+    }
+    else if (newIndex > length) {
+        newIndex = 0;
+    }
 
-// 	return array;
-// }
-
+    if (type == 1 && !keepValue)
+        return values[newIndex];
+    return (type == 1 && keepValue) ? dupValues[newIndex] : set.data.left[newIndex];
+}
 
 $(onLoad);
