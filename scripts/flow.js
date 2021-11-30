@@ -39,7 +39,7 @@ const wheel = async (e, obj, i) => {
         }
 
         currentWord[i] += dir;
-        set.index += 1;
+        set.index += dir;
         scrolling[i] = true;
         await view.scrollToWord(1);
         
@@ -66,7 +66,7 @@ const shuffle = (array) => {
 function checkStatus() {
     $(`#divOne #${set.index + 1}`).animate({"left": -200}, 32);
     $("#divTwo #1").animate({"right": -200}, 32);
-    
+
     setTimeout(() => {
         view.removeWord(1);
         $("#divTwo #1").remove();
