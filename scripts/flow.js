@@ -43,7 +43,7 @@ const wheel = async (e, obj, i) => {
         scrolling[i] = true;
         await view.scrollToWord(1);
         
-        scrolling[i] = false;
+        setTimeout(() => scrolling[i] = false, 500)
     }
 }
 
