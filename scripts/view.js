@@ -15,7 +15,7 @@ const view = {
     removeWord: (i) => {
         $(`#${i} .text`).remove();
     },
-    scrollToWord: async(direction) => {
+    scrollToWord: async(direction, obj) => {
       if (direction > 0) {
         let count = -1;
         for(let i = 0; i < 10; i++)
@@ -29,7 +29,6 @@ const view = {
       $(`#divOne #${set.index + 1}`).addClass("center");
 
       view.editWord(set.index + 1, set.data.left[set.index + 1].text);
-
       if (direction > 0) {
           $(`#divOne #${set.index}`).addClass("top");
           $(`#divOne #${set.index - 1}`).addClass("bottom");
@@ -43,3 +42,4 @@ const view = {
       } 
     }
 }
+ 
