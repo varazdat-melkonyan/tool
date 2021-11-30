@@ -28,8 +28,8 @@ const view = {
     $("#divOne .word").removeClass("top center bottom");
     $(`#divOne #${set.index + 1}`).addClass("center");
 
-    view.editWord(set.index, set.data.left[set.index].text);
-    
+    view.editWord(set.index + 1, set.data.left[set.index + 1].text);
+
     if (direction > 0) {
         $(`#divOne #${set.index}`).addClass("top");
         $(`#divOne #${set.index - 1}`).addClass("bottom");
@@ -39,7 +39,7 @@ const view = {
         $(`#divOne #${set.index}`).css("margin-top", "0");
 
         $(`#divOne #${set.index - 1}`).attr("id", set.index + 2);
-        setTimeout(()=> $(`#${set.index + 2}`).show());
+        setTimeout(()=> $(`#${set.index + 2}`).show())
     } 
   }
 }
