@@ -39,7 +39,7 @@ const view = {
         $(`#divOne #${set.index}`).css("margin-top", "0");
 
         $(`#divOne #${set.index - 1}`).attr("id", set.index + 2);
-        setTimeout(()=> $(`#${set.index + 2}`).show());
+        setTimeout(() => $(`#${set.index + 2}`).show());
     } 
   }
 }
